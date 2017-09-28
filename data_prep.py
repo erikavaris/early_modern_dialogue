@@ -4,9 +4,8 @@ import xmltodict
 import collections
 import glob
 from nltk.tokenize import word_tokenize
-import matplotlib.pyplot as plt
 import pandas as pd
-import seaborn
+#import seaborn
 import json
 
 NOT_LOWERCASE = re.compile(r'^[^a-z]+$')
@@ -84,10 +83,10 @@ def read_ced_drama(filename):
     #take out non-dialogue texts
     data = re.sub(INTRO_TEXT, '', data)
     data = re.sub(NOTES_2, '', data)
-    if re.findall(NOTES_1, data): 
+    if re.findall(NOTES_1, data):
         data = re.sub(NOTES_1, '', data)
     data = re.sub('#\n', '\n', data) #some texts have # before line breaks
-    
+
     if re.findall(ANOTHER_FONT, data): #take out weird font notations around words
         data = re.sub(PRE_ANOTHER_FONT, '', data)
         data = re.sub(POST_ANOTHER_FONT, '', data)
@@ -143,10 +142,10 @@ def read_ced_txt(filename):
     #take out non-dialogue texts
     data = re.sub(INTRO_TEXT, '', data)
     data = re.sub(NOTES_2, '', data)
-    if re.findall(NOTES_1, data): 
+    if re.findall(NOTES_1, data):
         data = re.sub(NOTES_1, '', data)
     data = re.sub('#\n', '\n', data) #some texts have # before line breaks
-    
+
     if re.findall(ANOTHER_FONT, data): #take out weird font notations around words
         data = re.sub(PRE_ANOTHER_FONT, '', data)
         data = re.sub(POST_ANOTHER_FONT, '', data)
@@ -256,7 +255,7 @@ def wordcount(dialogue_pairs):
     return lengths
 
 def bucket_description(lengths):
-    
+
     df = pd.DataFrame(lengths)
     #column for sequence of l0 and l1
     def f(row):
