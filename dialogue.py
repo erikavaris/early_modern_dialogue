@@ -7,9 +7,8 @@
 
 """Binary for training translation models and decoding from them.
 
-Running this program without --decode will download the WMT corpus into
-the directory specified as --data_dir and tokenize it in a very basic way,
-and then start training a model saving checkpoints to --train_dir.
+To run with training:
+python dialogue.py --data_dir=/path/to/data --train_dir=./
 
 Running with --decode starts an interactive loop so you can see how
 the current checkpoint translates English sentences into French.
