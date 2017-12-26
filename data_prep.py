@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn
 import json
+from dialogue import FLAGS
 
 NOT_LOWERCASE = re.compile(r'^[^a-z]+$')
 
@@ -23,7 +24,7 @@ def read_shakespeare():
     '''data/shakespeare.txt
     '''
     data = []
-    with open('data/shakespeare.txt', 'r') as f:
+    with open(FLAGS.data_dir+'/shakespeare.txt', 'r') as f:
         data = f.read()
 
     #divide by double newlines
@@ -177,7 +178,7 @@ def read_ced():
     '''Open up each CED file relevant to our dialogue test
     and extract the dialogues from them.
     '''
-    foldername = 'data/2507/2507/CEDPlain' #adjust to wherever CED data lives
+    foldername = FLAGS.data_dir + '/2507/2507/CEDPlain' #adjust to wherever CED data lives
     dialogue_pairs = []
     #comedy dramas
     for filename in glob.glob(foldername+'/D?C*'):
