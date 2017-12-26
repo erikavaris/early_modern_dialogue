@@ -203,8 +203,8 @@ def prepare_emd_data(data_dir, vocabulary_size=55000):
   """
   # read and prepare emd data from txt files
   if not gfile.Exists(data_dir+'/input_data.json') and not gfile.Exists(data_dir+'/output_data.json'):
-      dialogue_pairs = data_prep.read_ced()
-      dialogue_pairs.extend(data_prep.read_shakespeare())
+      dialogue_pairs = data_prep.read_ced(data_dir)
+      dialogue_pairs.extend(data_prep.read_shakespeare(data_dir))
       data_prep.write_datafiles(dialogue_pairs)
       input_data = [pair[0] for pair in dialogue_pairs]
       output_data = [pair[1] for pair in dialogue_pairs]
