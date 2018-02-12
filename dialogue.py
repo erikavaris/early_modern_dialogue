@@ -7,9 +7,8 @@
 
 """Binary for training translation models and decoding from them.
 
-Running this program without --decode will download the WMT corpus into
-the directory specified as --data_dir and tokenize it in a very basic way,
-and then start training a model saving checkpoints to --train_dir.
+To run with training:
+python dialogue.py --data_dir=/path/to/data --train_dir=./
 
 Running with --decode starts an interactive loop so you can see how
 the current checkpoint translates English sentences into French.
@@ -155,9 +154,9 @@ def train():
         FLAGS.vocab_size)
   else:
       # Prepare EMD data.
-      print("Preparing EMD data in %s" % FLAGS.data_dir)
+      print("Preparing EMD data from %s to %s" % (FLAGS.data_dir, FLAGS.train_dir))
       from_train, to_train, from_dev, to_dev, _, _ = data_utils.prepare_emd_data(
-          FLAGS.data_dir, FLAGS.vocab_size)
+          FLAGS.data_dir, FLAGS.train_dir, FLAGS.vocab_size)
 
   with tf.Session() as sess:
     # Create model.
@@ -274,7 +273,7 @@ def decode():
         outputs = outputs[:outputs.index(data_utils.EOS_ID)]
       # Print out French sentence corresponding to outputs.
       print(" ".join([tf.compat.as_str(rev_to_vocab[output]) for output in outputs]))
-      print("> ", end="")
+      print("> ",end='')
       sys.stdout.flush()
       sentence = sys.stdin.readline()
 
