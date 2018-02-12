@@ -154,9 +154,9 @@ def train():
         FLAGS.vocab_size)
   else:
       # Prepare EMD data.
-      print("Preparing EMD data in %s" % FLAGS.data_dir)
+      print("Preparing EMD data from %s to %s" % (FLAGS.data_dir, FLAGS.train_dir))
       from_train, to_train, from_dev, to_dev, _, _ = data_utils.prepare_emd_data(
-          FLAGS.data_dir, FLAGS.vocab_size)
+          FLAGS.data_dir, FLAGS.train_dir, FLAGS.vocab_size)
 
   with tf.Session() as sess:
     # Create model.

@@ -182,7 +182,7 @@ def data_to_token_ids(data_path, target_path, vocabulary_path,
           tokens_file.write(" ".join([str(tok) for tok in token_ids]) + "\n")
 
 
-def prepare_emd_data(data_dir, vocabulary_size=55000):
+def prepare_emd_data(data_dir, train_dir, vocabulary_size=55000):
   """Get Early Modern Dialogue data into data_dir, create vocabularies and tokenize data.
 
   Args:
@@ -217,10 +217,14 @@ def prepare_emd_data(data_dir, vocabulary_size=55000):
 
   indices = range(0, len(input_data))
   dev = random.sample(indices, round(len(input_data)*.1))
-  with open(data_dir+'/input_data_training.json', 'w') as from_train:
-    with open(data_dir+'/output_data_training.json', 'w') as to_train:
-        with open(data_dir+'/input_data_dev.json', 'w') as from_dev:
-            with open(data_dir+'/output_data_dev.json', 'w') as to_dev:
+  # writing new data files into train_dir, not data_dir, to allow for 
+  # permissions issues when reading from external drive
+  if not gfile.Exists(train_dir):
+    os.mkdir(train_dir)
+  with open(train_dir+'/input_data_training.json', 'w') as from_train:
+    with open(train_dir+'/output_data_training.json', 'w') as to_train:
+        with open(train_dir+'/input_data_dev.json', 'w') as from_dev:
+            with open(train_dir+'/output_data_dev.json', 'w') as to_dev:
                 for i in indices:
                     if i not in dev:
                         json.dump(input_data[i], from_train)
@@ -234,12 +238,12 @@ def prepare_emd_data(data_dir, vocabulary_size=55000):
                         to_dev.write('\n')
 
   # Get emd data to the specified directory.
-  from_train_path = data_dir+'/input_data_training.json'
-  to_train_path = data_dir+'/output_data_training.json'
-  from_dev_path = data_dir+'/input_data_dev.json'
-  to_dev_path = data_dir+'/output_data_dev.json'
+  from_train_path = train_dir+'/input_data_training.json'
+  to_train_path = train_dir+'/output_data_training.json'
+  from_dev_path = train_dir+'/input_data_dev.json'
+  to_dev_path = train_dir+'/output_data_dev.json'
 
-  return prepare_data(data_dir, from_train_path, to_train_path, from_dev_path, to_dev_path, vocabulary_size=vocabulary_size)
+  return prepare_data(train_dir, from_train_path, to_train_path, from_dev_path, to_dev_path, vocabulary_size=vocabulary_size)
 
 
 def prepare_data(data_dir, from_train_path, to_train_path, from_dev_path, to_dev_path, vocabulary_size=55000):
