@@ -19,11 +19,11 @@ def get_pairs(data):
             pairs.append(pair)
     return pairs
 
-def read_shakespeare():
+def read_shakespeare(data_dir):
     '''data/shakespeare.txt
     '''
     data = []
-    with open('data/shakespeare.txt', 'r') as f:
+    with open(data_dir+'/shakespeare.txt', 'r') as f:
         data = f.read()
 
     #divide by double newlines
@@ -173,11 +173,11 @@ def read_ced_txt(filename):
 
     return clean_dialogue
 
-def read_ced():
+def read_ced(data_dir):
     '''Open up each CED file relevant to our dialogue test
     and extract the dialogues from them.
     '''
-    foldername = 'data/2507/2507/CEDPlain' #adjust to wherever CED data lives
+    foldername = data_dir + '/2507/2507/CEDPlain' #adjust to wherever CED data lives
     dialogue_pairs = []
     #comedy dramas
     for filename in glob.glob(foldername+'/D?C*'):
